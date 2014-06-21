@@ -1,0 +1,758 @@
+<!doctype html>
+<html lang="ja">
+<head>
+	<meta charset="utf-8">
+	<title>Rで始めるデータヴィジュアライゼーション</title>
+	<meta name="description" content="Rを使ってデータビジュアライズしてみよう">
+	<meta name="author" content="takyam <takayuki.yamaguch.m@gmail.com>">
+	<meta name="apple-mobile-web-app-capable" content="yes"/>
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<link rel="stylesheet" href="css/reveal.min.css">
+	<link rel="stylesheet" href="css/theme/sky.css" id="theme">
+	<!-- For syntax highlighting -->
+	<link rel="stylesheet" href="lib/css/zenburn.css">
+	<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+	<style type="text/css">
+		.reveal h2 {
+			margin-bottom: 10%;
+		}
+		.reveal strong {
+			font-size: 150%;
+			color: #ffaf52;
+		}
+
+		.reveal code {
+			font-family: Consolas, 'Courier New', Courier, Monaco, monospace;
+		}
+
+		.reveal p {
+			word-break: break-all;
+		}
+
+		.reveal p code, .reveal li>code {
+			background-color: #efefef;
+			color: #ff2c2d;
+			border: #ff2c2d 1px solid;
+			border-radius: 10px ;
+			padding: 0 10px;
+			margin: 0;
+			line-height: 100%;
+		}
+
+		.reveal blockquote p {
+			margin: 5%;
+		}
+	</style>
+	<script>
+		if (window.location.search.match(/print-pdf/gi)) {
+			var link = document.createElement('link');
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = 'css/print/pdf.css';
+			document.getElementsByTagName('head')[0].appendChild(link);
+		}
+	</script>
+	<!--[if lt IE 9]>
+	<script src="lib/js/html5shiv.js"></script>
+	<![endif]-->
+</head>
+<body>
+<div class="reveal">
+<!-- Any section element inside of this container is displayed as a slide -->
+<div class="slides">
+<section data-markdown data-separator="^\n\s*---$" data-vertical="^\n>>>$">
+	<script type="text/template">
+		# Rで始める
+		データヴィジュアライゼーション
+	</script>
+</section>
+<section data-background="https://pbs.twimg.com/profile_images/549486021/itsme.png">
+	<h1 style="color: #fff; text-shadow: 3px 3px 3px #222;">自己紹介</h1>
+	<p style="color: #fff; text-shadow: 3px 3px 3px #222;">
+		takyamです
+	</p>
+</section>
+<section data-markdown data-separator="^\n\s*---$" data-vertical="^\n>>>$">
+	<script type="text/template">
+		## Agenda
+		* データヴィジュアライゼーションてなんぞ
+		* Rってなんぞ
+		* Rでできる事
+		* いろんなグラフ
+		* Rのインストール
+		* Rのシンタックス
+		* ggplot2使えばおｋ
+		* vector/list/matrix/dataFrame
+		* XとYとcolourとfill
+		* データを集計してみる
+
+		---
+		## データビジュアライゼーションてなんぞ
+
+		---
+		* **データ**を**ビジュアライズ**すること
+		* グラフ作れオラァ的なやつ
+		* 日本語にすると**データ可視化**とかだと思う
+
+		---
+		## Rってなんぞ
+
+		---
+		> R言語（あーるげんご）はオープンソース・フリーソフトウェアの統計解析向けのプログラミング言語及びその開発実行環境である。
+		> http://ja.wikipedia.org/wiki/R%E8%A8%80%E8%AA%9E
+
+		---
+		* **データを解析 -> グラフ作る**
+		* とかが簡単にできる言語（環境）
+		* その辺に特化したライブラリとかが多数ある
+		* プログラミング高性能Excel
+
+		---
+		## Rでできる事
+
+		---
+		* データソースを整形
+		* データを集計
+		* データを出力
+		* データをグラフで出力
+
+		---
+		* 所轄プログラミング言語なので他にもいろいろできるはず
+		* とはいえデータ集計以外の使い道は知らんとです
+
+		---
+		* いろんデータソースに対応できます
+			* テキストデータ(TXT,TSV,CSV...)
+			* データベース(MySQL,MongoDB)
+
+		---
+		* いろんなかたちで出力できます
+			* テキストデータ(TXT,TSV,CSV...)
+			* 画像データ(PNG,JPEG,GIF...)
+			* PDF
+			* データベース(MySQL,MongoDB...)
+
+		---
+		* そして何よりもグラフがお手軽に作れます
+		* かなりお手軽かつ高速に作れます
+
+		---
+		## いろんなグラフ
+	</script>
+</section>
+
+<section data-markdown data-background="http://docs.ggplot2.org/current/geom_line-6.png">
+	<script type="text/template">
+		
+		線グラフ
+
+		![サンプル](http://docs.ggplot2.org/current/geom_line-6.png)
+	</script>
+</section>
+
+<section data-markdown data-background="http://docs.ggplot2.org/current/geom_point-8.png">
+	<script type="text/template">
+		
+		散布図
+
+		![サンプル](http://docs.ggplot2.org/current/geom_point-8.png)
+	</script>
+</section>
+
+<section data-markdown data-background="http://docs.ggplot2.org/current/geom_bar-20.png">
+	<script type="text/template">
+		
+		棒グラフ
+
+		![サンプル](http://docs.ggplot2.org/current/geom_bar-20.png)
+	</script>
+</section>
+<section data-markdown data-background="http://docs.ggplot2.org/current/coord_polar-6.png">
+	<script type="text/template">
+		
+		円グラフ
+
+		![サンプル](http://docs.ggplot2.org/current/coord_polar-6.png)
+	</script>
+</section>
+<section data-markdown data-background="http://docs.ggplot2.org/current/geom_boxplot-24.png">
+	<script type="text/template">
+		
+		箱ひげ図
+
+		![サンプル](http://docs.ggplot2.org/current/geom_boxplot-24.png)
+	</script>
+</section>
+<section data-markdown data-background="http://docs.ggplot2.org/current/geom_dotplot-30.png">
+	<script type="text/template">
+		
+		ドット図
+
+		![サンプル](http://docs.ggplot2.org/current/geom_dotplot-30.png)
+	</script>
+</section>
+<section data-markdown data-background="http://docs.ggplot2.org/current/geom_histogram-44.png">
+	<script type="text/template">
+		
+		ヒストグラム
+
+		![サンプル](http://docs.ggplot2.org/current/geom_histogram-44.png)
+	</script>
+</section>
+<section data-markdown data-background="http://docs.ggplot2.org/current/geom_violin-22.png">
+	<script type="text/template">
+		
+		バイオリン図
+
+		![サンプル](http://docs.ggplot2.org/current/geom_violin-22.png)
+	</script>
+</section>
+<section data-markdown data-background="http://docs.ggplot2.org/current/coord_map-2.png">
+	<script type="text/template">
+		
+		マップ
+
+		![サンプル](http://docs.ggplot2.org/current/coord_map-2.png)
+	</script>
+</section>
+<section data-markdown data-separator="^\n\s*---$" data-vertical="^\n>>>$">
+	<script type="text/template">
+		* これらの他にもたくさんの種類のグラフの描画を簡単に実施できます
+
+		---
+		## Rのインストール
+
+		---
+		* ggrks
+
+		---
+		## Rのシンタックス
+		
+		---
+		* 基本的な構文だけ抑えておきましょう
+		* PHPerにはキモい事間違いなし！
+		* **関数型言語風**、って感じす
+
+		---
+		* 代入は ``<-`` でやる
+		* 末尾の ``;`` はあってもなくても。
+
+		```R
+		a <- 5;
+		b <- a + 2;
+		print(b); #=> 7
+		```
+
+		---
+		* コメントは``#``で始める。
+		* ブロックコメントは知らない。
+
+		```R
+		# HOGEHOGE
+		# FUGAFUGA
+		```
+
+		---
+		* 四則演算は``+`` ``-`` ``*`` ``/``
+		* 累乗は ``^`` か ``**``
+		* MODは ``%%``
+
+		```R
+		(1 + 2 * 3) / (4 - 5); #=> -1
+		5 ** 5; #=> 3125
+		10 %% 3; #=> 1
+		```
+
+		---
+		* 比較は ``==`` ``!=``
+		* 大小の比較は ``>`` ``<`` ``>=`` ``<=``
+		* AND/OR は ``&`` ``|``
+
+		```R
+		a == b;
+		x != y;
+		a >= b & b <= c;
+		a == b | b == c;
+		```
+
+		---
+		* Booleanとして ``TRUE`` ``FALSE`` あるいは ``T`` ``F``
+		* if文は普通
+
+		```R
+		if ( TRUE ) print('ok'); #=> [1] "ok"
+		if ( FALSE ) {
+			print("ok");
+		} else {
+			print("ng");
+		}
+		#=> [1] "ng"
+		```
+
+		---
+		* ``for`` は ``in`` する感じ
+
+		```R
+		for ( i in 1:5 ) {
+			print(i);
+		}
+		# =>
+		# [1] 1
+		# [1] 2
+		# [1] 3
+		# [1] 4
+		# [1] 5
+		```
+
+		---
+		* 関数定義は``function``
+		* ``return`` も関数
+		* ラベル引数に対応
+
+		```R
+		addFunc <- function(x = 0, plus = 1) {
+			return(x+plus)
+		};
+		print(addFunc()); #=> 1
+		print(addFunc(2, 5)); #=> 7
+		print(addFunc(x = 2, plus = 1)); #=> 3
+		print(addFunc(plus = 4)); #=> 4
+		```
+
+		---
+		* 文字列結合は``paste``関数を使います
+		* デフォルトは半角スペースで結合されます
+		* ``paste0``関数は``paste(sep = "")``と同義です
+
+		```R
+		paste("A", "B"); #=> [1] "A B"
+		paste("A", "B", sep = ""); #=> [1] "AB"
+		paste0("A", "B"); #=> [1] "AB"
+		```
+
+		---
+		* 必要最低限だとこんな感じです
+		* これでRが書けるようになりました
+
+		---
+		## vector/list/matrix/dataFrame
+
+		---
+		* シンタックスがわかったところでRの4つの型を知る必要があります
+		* ``vector`` ``list`` ``matrix`` ``dataFrame``
+		* この4つを押さえておけば勝ちです。
+
+		---
+		![http://www.slideshare.net/dritoshi/r-14844056/11](robject.jpg)
+
+		[http://www.slideshare.net/dritoshi/r-14844056/11](http://www.slideshare.net/dritoshi/r-14844056/11)
+
+		---
+		* 読み込んだTSV等は data.frame になります
+		* なので一番よく使うのは data.frame ではあるのですが、各列はそれぞれが vector で、各列は list みたいなもんです。
+		* この4つの区別を理解せずに始めるとキツイです
+
+		---
+		* これでシンタックスとvector系4種を知ったのでもうRこわくない
+		* それでは実際にグラフ作っていきましょう
+
+
+		---
+		## ggplot2使えばおｋ
+
+		---
+		* Rはグラフを作れるわけですが、標準のはうんこです
+		* かわいくない
+	</script>
+</section>
+
+<section data-markdown data-background="http://1.bp.blogspot.com/-4Btheom__6Q/T8FJ9r7CzfI/AAAAAAAAAzk/WGmMrSKRw4Q/s1600/20091112_scatter_1.png">
+	<script type="text/template">
+		こんなのとか
+
+		![サンプル](http://1.bp.blogspot.com/-4Btheom__6Q/T8FJ9r7CzfI/AAAAAAAAAzk/WGmMrSKRw4Q/s1600/20091112_scatter_1.png)
+	</script>
+</section>
+
+<section data-markdown data-background="http://i.stack.imgur.com/PC9A7.png">
+	<script type="text/template">
+		こんなのとか。
+
+		![サンプル](http://i.stack.imgur.com/PC9A7.png)
+	</script>
+</section>
+
+<section data-markdown data-separator="^\n\s*---$" data-vertical="^\n>>>$">
+	<script type="text/template">
+		* 基本白黒です
+		* 色つけたりしようと思えばできるんだけど面倒
+		* なので、簡単にシャレオツにしてくれるggplot2ってのを使います
+
+		---
+		# ggplot2
+		* http://ggplot2.org/
+		* http://docs.ggplot2.org/current/
+
+		---
+		* この資料の最初のほうで紹介したグラフは全てggplot2で作られたものです
+		* Rの標準からあそこまでのグラフに仕上げるのは超面倒ですが、ggplot2を使えば超楽ちんです。
+		* Rでグラフ作るのに使わない意味がわからないレベル
+
+		---
+		## XとYとcolourとfill
+
+		---
+		* グラフを作るにあたって、データを2軸に分ける必要があります
+		* 基本的にはX軸とY軸に、それぞれどんな値をアサインするのかを決定する必要があります
+		* 線グラフしかり、円グラフしかり。
+		* 全ての場合、とまでは言いませんが基本的にXとYのデータを用意するのが集計作業になります
+
+		---
+		* XとYだけの簡単なグラフの例です
+
+		![x&y](http://docs.ggplot2.org/current/geom_bar-12.png)
+
+		---
+		* XとYの2軸にさらに色で軸を作る事が可能です
+		* この色の軸を``fill``や``colour``で表します
+		* ``fill``が塗りつぶし、``colour``が線色です
+
+		---
+		* ``fill``を設定して色での軸を追加した例です
+
+		![x&y&fill](http://docs.ggplot2.org/current/geom_bar-18.png)
+
+		---
+		* ``x`` ``y`` ``fill`` ``colour`` の4つとも使う事はあまりないですが、``x`` と ``y`` と ( ``fill`` か ``colour`` ) の3種類での組み合わせはよくあります
+		* なので、TSV等のデータを ``x用の列`` ``y用の列`` ``fill(colour)用の列`` の3つの列が取得できるように整形する必要があります
+		* どんなデータにしろ、最終的にはこの2つから3つの列に集計し、それをグラフとして表示するイメージです
+
+		---
+		## データを集計してみる
+
+		---
+		* 以下がデータ集計の例です。Apacheのログを読み込みます
+
+		```R
+		logData <- read.table(file = "httpd.log", sep = " ", nrows = 5, header = F, col.names = c("IP", "0", "1", "dateTime", "timezone", "request", "responseCode", "bytes", "referrer", "UA"))
+		#               IP X0 X1              dateTime timezone
+		# 1   60.126.53.21  -  - [21/Jun/2014:16:38:04   +0900]
+		# 2 136.108.94.164  -  - [21/Jun/2014:16:38:04   +0900]
+		# 3  160.33.48.226  -  - [21/Jun/2014:16:38:04   +0900]
+		# 4  224.21.128.27  -  - [21/Jun/2014:16:38:04   +0900]
+		# 5 164.168.169.97  -  - [21/Jun/2014:16:38:04   +0900]
+		#                               request responseCode bytes               referrer
+		# 1        GET /category/games HTTP/1.1          200    58                      -
+		# 2 GET /item/electronics/3723 HTTP/1.1          200    86                      -
+		# 3       GET /category/garden HTTP/1.1          200    99 /item/electronics/4583
+		# 4       GET /item/books/3826 HTTP/1.1          200    86  /category/electronics
+		# 5 GET /item/electronics/1278 HTTP/1.1          200   113  /category/electronics
+		#                                                                                                          UA
+		# 1                              Mozilla/5.0 (Windows NT 6.1; WOW64; rv:10.0.1) Gecko/20100101 Firefox/10.0.1
+		# 2                       Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6; rv:9.0.1) Gecko/20100101 Firefox/9.0.1
+		# 3                       Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6; rv:9.0.1) Gecko/20100101 Firefox/9.0.1
+		# 4                                     Mozilla/5.0 (Windows NT 6.0; rv:10.0.1) Gecko/20100101 Firefox/10.0.1
+		# 5 Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.7 (KHTML, like Gecko) Chrome/16.0.912.77 Safari/535.7
+		```
+
+		---
+		* とりあえず今回は集計という名の整形
+		* 日付が変なのでいい感じにします
+
+		```R
+		#ログの日付の形式が日本じゃないのでロケールを変更
+		Sys.setlocale("LC_TIME", "C");
+		# dateTime と timezone の列を結合して strptime で DateTime形式として time 列に突っ込む
+		logData$time <- strptime(paste(logData$dateTime, logData$timezone), "[%d/%b/%Y:%H:%M:%S %z]");
+		logData$time
+		# [1] "2014-06-21 16:38:04" "2014-06-21 16:38:04" "2014-06-21 16:38:04"
+		# [4] "2014-06-21 16:38:04" "2014-06-21 16:38:04"
+		```
+
+		---
+		* リクエストを HTTPメソッドとパスに分解します
+		* パスは先頭だけ取得します
+
+		```R
+		logData$method <- c();
+		logData$path <- c();
+		for ( i in 1:nrow(logData) ) {
+		  reqData <- strsplit(as.character(logData$request[[i]]), " ")[[1]];
+		  logData$method[[i]] <- reqData[[1]];
+		  logData$path[[i]] <- strsplit(reqData[[2]], "/")[[1]][[2]];
+		  reqData <- NULL;
+		}
+		logData
+		# (ry
+		#                  time method     path
+		# 1 2014-06-21 16:38:04    GET category
+		# 2 2014-06-21 16:38:04    GET     item
+		# 3 2014-06-21 16:38:04    GET category
+		# 4 2014-06-21 16:38:04    GET     item
+		# 5 2014-06-21 16:38:04    GET     item
+		```
+
+		---
+		* 不要な列を削除する
+
+		```R
+		logData$IP <- NULL
+		logData$X0 <- NULL
+		logData$X1 <- NULL
+		logData$dateTime <- NULL
+		logData$timezone <- NULL
+		logData$request <- NULL
+		logData$referrer <- NULL
+		logData$UA <- NULL
+		logData
+		#   responseCode bytes                time method     path
+		# 1          200    58 2014-06-21 16:38:04    GET category
+		# 2          200    86 2014-06-21 16:38:04    GET item
+		# 3          200    99 2014-06-21 16:38:04    GET category
+		# 4          200    86 2014-06-21 16:38:04    GET item
+		# 5          200   113 2014-06-21 16:38:04    GET item
+		```
+
+		---
+		* レスポンスコードが200の、GETのものだけに絞る
+		* ついでにresponseCodeとmethodは使わないので消す
+
+		```R
+		logData <- subset(logData, responseCode == 200 & method == "GET", select = c("time", "path", "bytes"));
+		logData
+		#                  time     path bytes
+		# 1 2014-06-21 16:38:04 category    58
+		# 2 2014-06-21 16:38:04     item    86
+		# 3 2014-06-21 16:38:04 category    99
+		# 4 2014-06-21 16:38:04     item    86
+		# 5 2014-06-21 16:38:04     item   113
+		# 6 2014-06-21 16:38:04 category   117
+		```
+
+		---
+		* そいではグラフを出力してみる
+		* 今回は箱ひげ図を出してみます
+
+		```R
+		ggplot(logData, aes(x = path, y = bytes)) + geom_boxplot();
+		```
+
+		---
+		![path_bytes.png](path_bytes.png)
+
+		---
+
+		```R
+		ggplot(logData, aes(x = path, y = bytes)) + geom_boxplot();
+		```
+
+		* ``aes()``で``x``と``y``を指定して、グラフの種類として``geom_boxplot()``を指定しています
+
+		---
+
+		* 色が可愛くないのでfillを指定します
+
+		```R
+		ggplot(logData, aes(x = path, y = bytes, fill = path)) + geom_boxplot();
+		```
+
+		---
+
+		![path_bytes_fill.png](path_bytes_fill.png)
+
+		---
+
+		* すごいかわいくなりました。
+
+		---
+
+		* 次は``path``毎の``bytes``の平均値を出して棒グラフを出力してみます
+		* ``plyr``ライブラリの``ddply``関数を利用して集計を行います
+
+		```R
+		library("plyr");
+		meansPerPath <- ddply(logData, "path", summarise, meanByte = mean(bytes));
+		meansPerPath
+		#       path meanByte
+		# 1 category 87.81154
+		# 2     item 86.39018
+		ggplot(meansPerPath, aes(x = path, y = meanByte, fill = path)) + geom_bar(stat = "identity");
+		```
+
+
+		---
+
+		![path_bytes_border.png](path_bytes_border.png)
+
+		---
+
+		* 簡単に``path``毎の平均値のデータを生成できました
+		* 棒グラフにするのも大した変更なくできてます
+
+		---
+
+		* 最後にそれぞれの個数の円グラフを出力したいと思います
+
+		```R
+		ggplot(logData, aes( x = factor(1), fill = path)) + geom_bar(width = 1) + coord_polar(theta = "y")
+		```
+
+		---
+
+		![path_counts_circle.png](path_counts_circle.png)
+
+		---
+
+		* 超簡単です
+
+		---
+
+		## もっと複雑なグラフ
+
+		---
+
+		* 当然もっと複雑な事もできます
+			* X軸Y軸のラベルの変更
+			* 凡例のカスタマイズ
+			* 複数のグラフの結合
+		* などなど奥が深いです。
+		* 今回はGetStarttedなので割愛。
+
+		---
+
+		## 活用事例
+
+		---
+
+		* (プロジェクトで使用した内容を時間があれば説明しますっ)
+
+		---
+
+		## Rのイケてないこと
+
+		---
+
+		* 集計とかに特化してはいるものの、いけてない事もちらほら
+
+		---
+
+		### 参照が無い
+
+		* Copy on write ではあるものの、基本的に代入はコピーです
+		* 大規模なログ(100MB以上）のデータの場合、大変な事に。
+		* マジメモリに対する意識高めじゃないときつい。
+		* 4GBくらいはメモリあるといいかなーと思いました。
+		* （実際は参照する方法も無くは無いです）
+
+		---
+
+		### ググり辛い
+
+		* ``R`` だと余計なものが引っかかりすぎる
+		* ``R言語`` とか ``GNU R`` とかしても引っかからない
+
+		---
+
+		### ドキュメント辛い
+
+		* ``?``コマンドとかでヘルプ(manみたいなの)開けるのですがいちいち開くの辛い
+		* オンラインのドキュメントがPDFとかザラ
+		* 「で、何の引数わたしゃいいんだよ結局！？」ってのもザラ
+		* マジ混沌（カオス）
+
+		---
+
+		* とかまぁいろいろイケてないとこはありますが、いい言語ですよ？
+
+		---
+
+		## 最後に
+
+		---
+
+		* データ量が少なければExcelで充分ですが、ある程度（1万行くらい）大きくなるとExcelだと辛くなります
+		* PHPとかRubyとかで毎回集計用スクリプト書くのものいいのですが、Rはグラフ出力しないとしても集計だけでもめちゃ便利です
+		* どうしても慣れが必要ですが、お手軽に大量のデータをサクッと集計するにはもってこいです
+
+		---
+
+		* それでは楽しいRライフをどうぞ！
+
+		---
+
+		# ご清聴！
+
+		---
+
+		# THANK YOU !!
+
+		---
+
+		# VERY !!!
+
+	</script>
+</section>
+
+
+<section data-background="http://blog-imgs-53.fc2.com/t/e/i/teitouko/201JayCutler+PhilHeath-.jpg">
+	<h1 style="color: #fff;">マッチョ！</h1>
+</section>
+
+<section data-markdown data-separator="^\n\s*---$" data-vertical="^\n>>>$">
+	<script type="text/template">
+		# -- end --
+	</script>
+</section>
+
+</div>
+
+</div>
+
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.min.js"></script>
+
+<script>
+
+	// Full list of configuration options available here:
+	// https://github.com/hakimel/reveal.js#configuration
+	Reveal.initialize({
+		controls: true,
+		progress: true,
+		history: true,
+		center: true,
+
+		theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+		transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+		// Parallax scrolling
+		// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+		// parallaxBackgroundSize: '2100px 900px',
+
+		// Optional libraries used to extend on reveal.js
+		dependencies: [
+			{ src: 'lib/js/classList.js', condition: function () {
+				return !document.body.classList;
+			} },
+			{ src: 'plugin/markdown/marked.js', condition: function () {
+				return !!document.querySelector('[data-markdown]');
+			} },
+			{ src: 'plugin/markdown/markdown.js', condition: function () {
+				return !!document.querySelector('[data-markdown]');
+			} },
+			{ src: 'plugin/highlight/highlight.js', async: true, callback: function () {
+				hljs.initHighlightingOnLoad();
+			} },
+			{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function () {
+				return !!document.body.classList;
+			} },
+			{ src: 'plugin/notes/notes.js', async: true, condition: function () {
+				return !!document.body.classList;
+			} }
+		]
+	});
+
+</script>
+
+</body>
+</html>
